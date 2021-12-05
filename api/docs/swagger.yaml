@@ -225,6 +225,35 @@ paths:
       summary: GetAll bus
       tags:
       - bus
+  /v1/bus/reserve/{id}:
+    post:
+      consumes:
+      - application/json
+      description: API for reserve bus
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Reserve bus
+      tags:
+      - bus
   /v1/destination:
     get:
       consumes:

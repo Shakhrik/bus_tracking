@@ -1,6 +1,8 @@
 package postgres
 
 import (
+	"fmt"
+
 	"github.com/Shakhrik/inha/bus_tracking/api/models"
 	"github.com/Shakhrik/inha/bus_tracking/storage/repo"
 	"github.com/jmoiron/sqlx"
@@ -44,7 +46,7 @@ func (b busRepo) GetAll(destinationId, limit, page int32) (models.Buses, error) 
 	offset := (page - 1) * limit
 
 	query := `WITH temp AS(
-		select b.id as id, count(bs.seat_number) as booked_seats_count
+		select b.id as id, count(1) as booked_seats_count
 		from bus b
 		left join bus_seat bs on b.id = bs.bus_id
 		group by b.id
@@ -69,4 +71,11 @@ func (b busRepo) GetAll(destinationId, limit, page int32) (models.Buses, error) 
 
 	}
 	return models.Buses{Buses: res, Count: count}, nil
+}
+
+func (b busRepo) ReserveBus(busId int64) (res models.ResponseWithID, err error) {
+	fmt.Println("busId ", busId)
+	query := `INSERT INTO bus_seat (bus_id) VALUES($1) RETURNING id`
+	err = b.db.Get(&res.ID, query, busId)
+	return
 }
