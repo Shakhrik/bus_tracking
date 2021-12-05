@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -108,5 +109,39 @@ func (h handlerV1) UserGetAll(c *gin.Context) {
 
 func (h handlerV1) Socket(c *gin.Context) {
 	fmt.Println("keldiii", c.Request.Body)
+
+}
+
+//@Router /v1/login [post]
+//@Summary Login user
+//@Description API for login user
+//@Tags user
+//@Accept json
+//@Produce json
+//@Param user body models.UserLogin true "user"
+//@Success 200 {object} models.SuccessModel
+//@Failure 400 {object} models.ResponseError
+//@Failure 500 {object} models.ResponseError
+func (h handlerV1) Login(c *gin.Context) {
+	var userLogin models.UserLogin
+
+	err := c.ShouldBind(&userLogin)
+	if err != nil {
+		h.HandleErrorResponse(c, http.StatusBadRequest, "bad request", err)
+		return
+	}
+
+	res, err := h.storage.UserRepo().Login(userLogin)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			h.HandleErrorResponse(c, http.StatusUnauthorized, "incorrect login or password", nil)
+			return
+		}
+
+		h.HandleErrorResponse(c, http.StatusInternalServerError, "database error", err)
+		return
+	}
+
+	h.HandleSuccessResponse(c, 201, "user info", res)
 
 }

@@ -82,6 +82,13 @@ definitions:
       password:
         type: string
     type: object
+  models.UserLogin:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -562,6 +569,36 @@ paths:
       summary: Update destination
       tags:
       - destination
+  /v1/login:
+    post:
+      consumes:
+      - application/json
+      description: API for login user
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Login user
+      tags:
+      - user
   /v1/user:
     get:
       consumes:

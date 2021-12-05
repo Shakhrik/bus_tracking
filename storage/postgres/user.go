@@ -58,3 +58,13 @@ func (u userRepo) GetAll(alias string, limit, page int32) (models.AllUsers, erro
 	}
 	return models.AllUsers{Users: res, Count: count}, nil
 }
+
+func (u userRepo) Login(req models.UserLogin) (res models.UserInfo, err error) {
+	query := `SELECT u.id, ut.alias as user_type, bus_id
+			  FROM users u
+			  JOIN user_type ut ON ut.id = u.user_type_id
+			  WHERE login = $1 and password = $2
+			  `
+	err = u.db.Get(&res, query, req.Login, req.Password)
+	return
+}

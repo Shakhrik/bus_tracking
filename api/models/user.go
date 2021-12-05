@@ -20,3 +20,14 @@ type AllUsers struct {
 	Users []User `json:"users"`
 	Count int64  `json:"count"`
 }
+
+type UserLogin struct {
+	Login    string `json:"login" db:"login"`
+	Password string `json:"password" db:"password"`
+}
+
+type UserInfo struct {
+	ID       int64   `json:"id" db:"id"`
+	UserType string  `json:"user_type" db:"user_type"`
+	BusID    *string `json:"bus_id" db:"bus_id"`
+}
