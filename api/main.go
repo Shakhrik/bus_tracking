@@ -43,7 +43,11 @@ func New(opt *RouterOptions) *gin.Engine {
 
 	// apiV1.Use(handlerV1.AuthMiddleware())
 	{
-		apiV1.POST("destination", handlerV1.DestinationCreate)
+		apiV1.POST("/destination", handlerV1.DestinationCreate)
+		apiV1.PUT("/destination/:id", handlerV1.DestinationUpdate)
+		apiV1.GET("/destination/:id", handlerV1.DestinationGet)
+		apiV1.GET("/destination", handlerV1.DestinationGetAll)
+
 	}
 	url := ginSwagger.URL("swagger/doc.json") // The url pointing to API definition
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
