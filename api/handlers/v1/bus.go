@@ -5,7 +5,13 @@ import (
 	"strconv"
 
 	"github.com/Shakhrik/inha/bus_tracking/api/models"
+	"github.com/Shakhrik/inha/bus_tracking/pkg/socket"
 	"github.com/gin-gonic/gin"
+)
+
+const (
+	IP   = "167.71.7.70"
+	PORT = 9980
 )
 
 //@Router /v1/bus [post]
@@ -175,4 +181,42 @@ func (h handlerV1) BriefBusGetAll(c *gin.Context) {
 	}
 
 	h.HandleSuccessResponse(c, 200, "get all buses successfully", res)
+}
+
+//@Router /v1/change-status/{bus_id} [put]
+//@Summary change status
+//@Description API for changing status
+//@Tags bus
+//@Accept json
+//@Produce json
+//@Param bus_id path int true "bus_id"
+//@Param bus_stop_id body models.ChangeStatus true "bus-stop-id"
+//@Success 200 {object} models.SuccessModel
+//@Failure 400 {object} models.ResponseError
+//@Failure 500 {object} models.ResponseError
+func (h handlerV1) ChangeStatus(c *gin.Context) {
+	busID := c.Param("bus_id")
+	value, err := strconv.Atoi(busID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	var changeStatus models.ChangeStatus
+	changeStatus.BusID = int64(value)
+	err = c.ShouldBind(&changeStatus)
+	if err != nil {
+		h.HandleErrorResponse(c, http.StatusBadRequest, "bad request", err)
+		return
+	}
+
+	res, err := h.storage.BusRepo().ChangeStatus(changeStatus)
+	if err != nil {
+		h.HandleErrorResponse(c, http.StatusInternalServerError, "database error", err)
+		return
+	}
+	socket.SocketClient(IP, PORT, strconv.Itoa(int(res.ID)))
+	h.HandleSuccessResponse(c, 201, "bus created successfully", res)
+
 }

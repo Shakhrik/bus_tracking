@@ -8,4 +8,5 @@ type BusRepoI interface {
 	ReserveBus(busId int64) (res models.ResponseWithID, err error)
 	Delete(id int64) (res models.ResponseWithID, err error)
 	GetAllBuses(limit, page int32) (models.BriefBuses, error)
+	ChangeStatus(req models.ChangeStatus) (res models.ResponseWithID, err error)
 }

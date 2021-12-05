@@ -26,6 +26,11 @@ definitions:
       name:
         type: string
     type: object
+  models.ChangeStatus:
+    properties:
+      bus_stop_id:
+        type: integer
+    type: object
   models.DestinationCreate:
     properties:
       distance:
@@ -331,6 +336,41 @@ paths:
           schema:
             $ref: '#/definitions/models.ResponseError'
       summary: Reserve bus
+      tags:
+      - bus
+  /v1/change-status/{bus_id}:
+    put:
+      consumes:
+      - application/json
+      description: API for changing status
+      parameters:
+      - description: bus_id
+        in: path
+        name: bus_id
+        required: true
+        type: integer
+      - description: bus-stop-id
+        in: body
+        name: bus_stop_id
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChangeStatus'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: change status
       tags:
       - bus
   /v1/destination:

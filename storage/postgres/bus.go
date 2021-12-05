@@ -100,3 +100,9 @@ func (b busRepo) GetAllBuses(limit, page int32) (models.BriefBuses, error) {
 	}
 	return models.BriefBuses{Buses: buses, Count: count}, nil
 }
+
+func (b busRepo) ChangeStatus(req models.ChangeStatus) (res models.ResponseWithID, err error) {
+	query := `UPDATE bus SET bus_stop_id = $1 WHERE id = $2 RETURNING id`
+	err = b.db.Get(&res.ID, query, req.BusStopID, req.BusID)
+	return
+}

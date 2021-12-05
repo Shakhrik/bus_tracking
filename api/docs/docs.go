@@ -408,6 +408,59 @@ var doc = `{
                 }
             }
         },
+        "/v1/change-status/{bus_id}": {
+            "put": {
+                "description": "API for changing status",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bus"
+                ],
+                "summary": "change status",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "bus_id",
+                        "name": "bus_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "bus-stop-id",
+                        "name": "bus_stop_id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ChangeStatus"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SuccessModel"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/destination": {
             "get": {
                 "description": "API for getting all destinations",
@@ -822,6 +875,14 @@ var doc = `{
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "models.ChangeStatus": {
+            "type": "object",
+            "properties": {
+                "bus_stop_id": {
+                    "type": "integer"
                 }
             }
         },

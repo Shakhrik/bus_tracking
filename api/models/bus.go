@@ -35,3 +35,8 @@ type BriefBuses struct {
 	Buses []BriefBus `json:"buses" db:"buses"`
 	Count int64      `json:"count"`
 }
+
+type ChangeStatus struct {
+	BusID     int64 `json:"bus_id" swaggerignore:"true"`
+	BusStopID int64 `json:"bus_stop_id"`
+}

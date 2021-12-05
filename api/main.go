@@ -58,6 +58,7 @@ func New(opt *RouterOptions) *gin.Engine {
 		apiV1.GET("/bus/:destination_id", handlerV1.BusGetAll)
 		apiV1.GET("/bus", handlerV1.BriefBusGetAll)
 		apiV1.POST("/bus/reserve", handlerV1.BusReserve)
+		apiV1.PUT("/change-status/:bus_id", handlerV1.ChangeStatus)
 
 		apiV1.POST("/user", handlerV1.UserCreate)
 		apiV1.GET("/user", handlerV1.UserGetAll)
