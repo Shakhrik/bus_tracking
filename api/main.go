@@ -1,15 +1,17 @@
 package api
 
 import (
-	"github.com/Shakhrik/bus_tracking/api/storage"
+	"github.com/Shakhrik/inha/bus_tracking/config"
+	"github.com/Shakhrik/inha/bus_tracking/pkg/logger"
+	"github.com/Shakhrik/inha/bus_tracking/storage"
 
-	v1 "github.com/Shakhrik/bus_tracking/api/api/handlers/v1"
+	v1 "github.com/Shakhrik/inha/bus_tracking/api/handlers/v1"
 
-	"github.com/Shakhrik/bus_tracking/api/config"
-	"github.com/Shakhrik/bus_tracking/api/pkg/logger"
-
+	_ "github.com/Shakhrik/inha/bus_tracking/api/docs"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type RouterOptions struct {
@@ -41,8 +43,10 @@ func New(opt *RouterOptions) *gin.Engine {
 
 	// apiV1.Use(handlerV1.AuthMiddleware())
 	{
-		apiV1.GET("", handlerV1.HandleErrorResponse)
+		apiV1.POST("destination", handlerV1.DestinationCreate)
 	}
+	url := ginSwagger.URL("swagger/doc.json") // The url pointing to API definition
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 	return router
 }

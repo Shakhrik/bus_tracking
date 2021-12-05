@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Shakhrik/bus_tracking/api/api/models"
-	"github.com/Shakhrik/bus_tracking/api/config"
-	"github.com/Shakhrik/bus_tracking/api/pkg/logger"
-	"github.com/Shakhrik/bus_tracking/api/storage"
+	"github.com/Shakhrik/inha/bus_tracking/api/models"
+	"github.com/Shakhrik/inha/bus_tracking/config"
+	"github.com/Shakhrik/inha/bus_tracking/pkg/logger"
+	"github.com/Shakhrik/inha/bus_tracking/storage"
 	"github.com/gin-gonic/gin"
 )
 

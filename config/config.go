@@ -38,9 +38,8 @@ func Load() Config {
 	config.PostgresHost = cast.ToString(getOrReturnDefault("POSTGRES_HOST", "localhost"))
 	config.PostgresPort = cast.ToInt(getOrReturnDefault("POSTGRES_PORT", 5432))
 	config.PostgresUser = cast.ToString(getOrReturnDefault("POSTGRES_USER", "postgres"))
-	config.PostgresPassword = cast.ToString(getOrReturnDefault("POSTGRES_PASSWORD", "postgres"))
-	config.PostgresDatabase = cast.ToString(getOrReturnDefault("POSTGRES_DATABASE", "safia_catalogue_service"))
-	config.PostgresTestDatabase = cast.ToString(getOrReturnDefault("POSTGRES_TEST_DATABASE", "safia_catalogue_service"))
+	config.PostgresPassword = cast.ToString(getOrReturnDefault("POSTGRES_PASSWORD", "1"))
+	config.PostgresDatabase = cast.ToString(getOrReturnDefault("POSTGRES_DATABASE", "bus_tracking"))
 
 	config.HttpPort = cast.ToString(getOrReturnDefault("HTTP_PORT", ":8002"))
 	return config

@@ -13,6 +13,19 @@ PROJECT_NAME=safia
 build:
 	CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -installsuffix cgo -o ${CURRENT_DIR}/bin/${APP} ${APP_CMD_DIR}/main.go
 
+proto-gen:
+	./scripts/gen-proto.sh  ${CURRENT_DIR}
+	rm -rf vendor/genproto
+	sudo rm -rf ${GOROOT}/src/genproto
+	sudo cp -R genproto ${GOROOT}/src
+	mv genproto vendor
+
+pull-proto-module:
+	git submodule update --init --recursive
+
+update-proto-module:
+	git submodule update --remote --merge
+
 clear:
 	rm -rf ${CURRENT_DIR}/bin/*
 

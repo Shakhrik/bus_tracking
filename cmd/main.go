@@ -3,11 +3,10 @@ package main
 import (
 	"fmt"
 
-	"github.com/Shakhrik/bus_tracking/api/api"
-
-	"github.com/Shakhrik/bus_tracking/api/config"
-	"github.com/Shakhrik/bus_tracking/api/pkg/logger"
-	"github.com/Shakhrik/bus_tracking/api/storage"
+	"github.com/Shakhrik/inha/bus_tracking/api"
+	"github.com/Shakhrik/inha/bus_tracking/config"
+	"github.com/Shakhrik/inha/bus_tracking/pkg/logger"
+	"github.com/Shakhrik/inha/bus_tracking/storage"
 	"github.com/jmoiron/sqlx"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
