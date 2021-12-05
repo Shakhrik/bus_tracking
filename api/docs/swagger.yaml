@@ -1,4 +1,17 @@
 definitions:
+  models.BusCreate:
+    properties:
+      destination_id:
+        type: integer
+      end_time:
+        type: string
+      name:
+        type: string
+      seat_count:
+        type: integer
+      start_time:
+        type: string
+    type: object
   models.BusStopCreate:
     properties:
       destination_id:
@@ -49,6 +62,36 @@ definitions:
 info:
   contact: {}
 paths:
+  /v1/bus:
+    post:
+      consumes:
+      - application/json
+      description: API for create bus
+      parameters:
+      - description: bus
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/models.BusCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Create bus
+      tags:
+      - bus
   /v1/bus-stop:
     post:
       consumes:

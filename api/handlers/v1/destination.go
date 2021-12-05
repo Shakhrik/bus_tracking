@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -32,6 +33,26 @@ func (h handlerV1) DestinationCreate(c *gin.Context) {
 		h.HandleErrorResponse(c, http.StatusInternalServerError, "database error", err)
 		return
 	}
+
+	go func() {
+		_, err = h.storage.BusStopRepo().Create(models.BusStopCreate{
+			Name:          destinationCreate.From,
+			DestinationID: res.ID,
+			Distance:      0,
+		})
+		if err != nil {
+			fmt.Println("error in go routine:", err)
+		}
+
+		_, err = h.storage.BusStopRepo().Create(models.BusStopCreate{
+			Name:          destinationCreate.To,
+			DestinationID: res.ID,
+			Distance:      destinationCreate.Distance,
+		})
+		if err != nil {
+			fmt.Println("error in go routine:", err)
+		}
+	}()
 
 	h.HandleSuccessResponse(c, 201, "destination created successfully", res)
 }
