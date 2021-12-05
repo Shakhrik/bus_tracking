@@ -216,7 +216,9 @@ func (h handlerV1) ChangeStatus(c *gin.Context) {
 		h.HandleErrorResponse(c, http.StatusInternalServerError, "database error", err)
 		return
 	}
-	socket.SocketClient(IP, PORT, strconv.Itoa(int(res.ID)))
+
+	message := `Bus with id = ` + strconv.Itoa(int(res.ID)) + ` has been updated`
+	socket.SocketClient(IP, PORT, message)
 	h.HandleSuccessResponse(c, 201, "bus created successfully", res)
 
 }
