@@ -24,6 +24,14 @@ type Buses struct {
 	Count int64 `json:"count" db:"count"`
 }
 
+type BriefBus struct {
+	ID   int64 `json:"id" db:"id"`
+	Name int64 `json:"name" db:"name"`
+}
 type BusReserve struct {
 	BusID int64 `json:"bus_id" db:"bus_id"`
+}
+type BriefBuses struct {
+	Buses []BriefBus `json:"buses" db:"buses"`
+	Count int64      `json:"count"`
 }

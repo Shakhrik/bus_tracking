@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -103,4 +104,9 @@ func (h handlerV1) UserGetAll(c *gin.Context) {
 	}
 
 	h.HandleSuccessResponse(c, 200, "get all users successfully", res)
+}
+
+func (h handlerV1) Socket(c *gin.Context) {
+	fmt.Println("keldiii", c.Request.Body)
+
 }

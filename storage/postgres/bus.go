@@ -82,3 +82,11 @@ func (b busRepo) Delete(id int64) (res models.ResponseWithID, err error) {
 	err = b.db.Get(&res.ID, query, id)
 	return
 }
+
+// func (b busRepo) GetAllBuses(limit, page int32) (models.BriefBuses, error) {
+// 	var buses []models.BriefBus
+// 	offset := (page - 1) * limit
+// 	query := `SELECT id, name FROM bus LIMIT $1 OFFSET $2`
+
+// 	err = b.db.Select()
+// }
