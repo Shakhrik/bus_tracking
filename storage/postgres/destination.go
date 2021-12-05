@@ -48,18 +48,25 @@ func (d destinationRepo) Get(id int64) (res models.Destination, err error) {
 	return
 }
 
-func (d destinationRepo) GetAll(limit, page int32) (res models.Destinations, err error) {
+func (d destinationRepo) GetAll(limit, page int32) (models.Destinations, error) {
+	var count int64
+	res := []models.Destination{}
+
 	offset := (page - 1) * limit
 
 	query := `SELECT id, from_place, to_place, distance, price FROM destination LIMIT $1 OFFSET $2`
-	err = d.db.Select(&res.Destinations, query, limit, offset)
+	err := d.db.Select(&res, query, limit, offset)
 	if err != nil {
-		return
+		return models.Destinations{Destinations: res}, err
 	}
 
 	queryCount := `SELECT count(1) FROM destination LIMIT $1 OFFSET $2`
-	err = d.db.Get(&res.Count, queryCount, limit, offset)
-	return
+	err = d.db.Get(&count, queryCount, limit, offset)
+	if err != nil {
+		return models.Destinations{Destinations: res}, err
+
+	}
+	return models.Destinations{Destinations: res, Count: count}, nil
 }
 
 func (d destinationRepo) Delete(id int32) (res models.DestinationGet, err error) {
