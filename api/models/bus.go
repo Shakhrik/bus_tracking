@@ -40,3 +40,16 @@ type ChangeStatus struct {
 	BusID     int64 `json:"bus_id" swaggerignore:"true"`
 	BusStopID int64 `json:"bus_stop_id"`
 }
+
+type GetBusStop struct {
+	BusStopName     string `json:"bus_stop_name" db:"bus_stop_name"`
+	BusStopID       int64  `json:"bus_stop_id" db:"bus_stop_id"`
+	IsHere          bool   `json:"is_here" db:"is_here"`
+	BusStopDistance int64  `json:"bus_stop_distance" db:"bus_stop_distance"`
+	DestinationName string `json:"destination_name" db:"destination_name"`
+}
+
+type GetAllBusStopes struct {
+	BusStops []GetBusStop `json:"bus_stops"`
+	Count    int64        `json:"count"`
+}

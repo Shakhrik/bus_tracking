@@ -220,3 +220,34 @@ func (h handlerV1) ChangeStatus(c *gin.Context) {
 	h.HandleSuccessResponse(c, 201, "bus created successfully", res)
 
 }
+
+//@Router /v1/bus-stops/{bus_id} [get]
+//@Summary GetAll bus-stops
+//@Description API for getting all buses
+//@Tags bus
+//@Accept json
+//@Produce json
+//@Param bus_id path int true "bus_id"
+//@Param limit query int false "limit"
+//@Param page query int false "page"
+//@Success 200 {object} models.SuccessModel
+//@Failure 400 {object} models.ResponseError
+//@Failure 500 {object} models.ResponseError
+func (h handlerV1) GetAllBusStopsByBus(c *gin.Context) {
+	desID := c.Param("bus_id")
+	value, err := strconv.Atoi(desID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	res, err := h.storage.BusRepo().GetBusStops(int64(value))
+	if err != nil {
+		h.HandleErrorResponse(c, http.StatusInternalServerError, "database error", err)
+		return
+	}
+
+	h.HandleSuccessResponse(c, 200, "get all buses successfully", res)
+}

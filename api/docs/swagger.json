@@ -243,6 +243,62 @@
                 }
             }
         },
+        "/v1/bus-stops/{bus_id}": {
+            "get": {
+                "description": "API for getting all buses",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bus"
+                ],
+                "summary": "GetAll bus-stops",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "bus_id",
+                        "name": "bus_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SuccessModel"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/bus/reserve": {
             "post": {
                 "description": "API for reserve bus",

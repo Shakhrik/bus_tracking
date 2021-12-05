@@ -106,3 +106,27 @@ func (b busRepo) ChangeStatus(req models.ChangeStatus) (res models.ResponseWithI
 	err = b.db.Get(&res.ID, query, req.BusStopID, req.BusID)
 	return
 }
+
+func (b busRepo) GetBusStops(busID int64) (models.GetAllBusStopes, error) {
+	busStops := []models.GetBusStop{}
+	query := `SELECT
+				bs.id as bus_stop_id,
+				bs.name as bus_stop_name,
+				d.from_place || '-' || d.to_place  as destination_name,
+				bs.distance as bus_stop_distance,
+				case b.bus_stop_id
+					when bs.id then true
+				else false
+				end is_here
+			  FROM bus b
+			  JOIN destination d on b.destination_id = d.id
+			  JOIN bus_stop bs on d.id = bs.destination_id
+			  WHERE b.id = $1
+			  ORDER BY bs.distance asc`
+	err := b.db.Select(&busStops, query, busID)
+	if err != nil {
+		return models.GetAllBusStopes{}, err
+	}
+
+	return models.GetAllBusStopes{BusStops: busStops}, nil
+}
