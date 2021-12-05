@@ -41,6 +41,37 @@ info:
   contact: {}
 paths:
   /v1/destination:
+    get:
+      consumes:
+      - application/json
+      description: API for getting all destinations
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: GetAll destinations
+      tags:
+      - destination
     post:
       consumes:
       - application/json
@@ -71,11 +102,44 @@ paths:
       tags:
       - destination
   /v1/destination/{id}:
+    get:
+      consumes:
+      - application/json
+      description: API for getting destination
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get destination
+      tags:
+      - destination
     put:
       consumes:
       - application/json
       description: API for updating destination
       parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
       - description: destination
         in: body
         name: employee

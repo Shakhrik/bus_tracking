@@ -41,3 +41,23 @@ func (d destinationRepo) Update(req models.DestinationUpdate) (int64, error) {
 
 	return req.ID, nil
 }
+
+func (d destinationRepo) Get(id int64) (res models.Destination, err error) {
+	query := `SELECT id, from_place, to_place, distance, price FROM destination WHERE id = $1`
+	err = d.db.Get(&res, query, id)
+	return
+}
+
+func (d destinationRepo) GetAll(limit, page int32) (res models.Destinations, err error) {
+	offset := (page - 1) * limit
+
+	query := `SELECT id, from_place, to_place, distance, price FROM destination LIMIT $1 OFFSET $2`
+	err = d.db.Select(&res.Destinations, query, limit, offset)
+	if err != nil {
+		return
+	}
+
+	queryCount := `SELECT count(1) FROM destination LIMIT $1 OFFSET $2`
+	err = d.db.Get(&res.Count, queryCount, limit, offset)
+	return
+}
