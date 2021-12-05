@@ -20,3 +20,7 @@ type ErrorModel struct {
 	Message string      `json:"message"`
 	Error   interface{} `json:"error"`
 }
+
+type ResponseWithID struct {
+	ID int64 `json:"id" db:"id"`
+}

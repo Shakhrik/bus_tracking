@@ -1,4 +1,13 @@
 definitions:
+  models.BusStopCreate:
+    properties:
+      destination_id:
+        type: integer
+      distance:
+        type: integer
+      name:
+        type: string
+    type: object
   models.DestinationCreate:
     properties:
       distance:
@@ -40,6 +49,102 @@ definitions:
 info:
   contact: {}
 paths:
+  /v1/bus-stop:
+    post:
+      consumes:
+      - application/json
+      description: API for create bus-stop
+      parameters:
+      - description: bus-stop
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/models.BusStopCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Create bus-stop
+      tags:
+      - bus-stop
+  /v1/bus-stop/{destination_id}:
+    get:
+      consumes:
+      - application/json
+      description: API for getting all bus-stopes
+      parameters:
+      - description: destination_id
+        in: path
+        name: destination_id
+        required: true
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: GetAll bus-stop
+      tags:
+      - bus-stop
+  /v1/bus-stop/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: API for deleting bus-stop
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Delete bus-stop
+      tags:
+      - bus-stop
   /v1/destination:
     get:
       consumes:

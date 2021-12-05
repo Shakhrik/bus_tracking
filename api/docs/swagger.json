@@ -4,6 +4,152 @@
         "contact": {}
     },
     "paths": {
+        "/v1/bus-stop": {
+            "post": {
+                "description": "API for create bus-stop",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bus-stop"
+                ],
+                "summary": "Create bus-stop",
+                "parameters": [
+                    {
+                        "description": "bus-stop",
+                        "name": "employee",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.BusStopCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SuccessModel"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/bus-stop/{destination_id}": {
+            "get": {
+                "description": "API for getting all bus-stopes",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bus-stop"
+                ],
+                "summary": "GetAll bus-stop",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "destination_id",
+                        "name": "destination_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SuccessModel"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/bus-stop/{id}": {
+            "delete": {
+                "description": "API for deleting bus-stop",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bus-stop"
+                ],
+                "summary": "Delete bus-stop",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SuccessModel"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/destination": {
             "get": {
                 "description": "API for getting all destinations",
@@ -236,6 +382,20 @@
         }
     },
     "definitions": {
+        "models.BusStopCreate": {
+            "type": "object",
+            "properties": {
+                "destination_id": {
+                    "type": "integer"
+                },
+                "distance": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.DestinationCreate": {
             "type": "object",
             "properties": {

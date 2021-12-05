@@ -11,12 +11,14 @@ import (
 type StorageI interface {
 	UserRepo() repo.UserRepoI
 	DestinationRepo() repo.DestinationRepoI
+	BusStopRepo() repo.BusStopRepoI
 }
 
 type storagePG struct {
 	db              *sqlx.DB
 	userRepo        repo.UserRepoI
 	destinationRepo repo.DestinationRepoI
+	busStopRepo     repo.BusStopRepoI
 }
 
 func NewStoragePG(db *sqlx.DB) StorageI {
@@ -24,6 +26,7 @@ func NewStoragePG(db *sqlx.DB) StorageI {
 		db:              db,
 		userRepo:        postgres.NewUserRepo(db),
 		destinationRepo: postgres.NewDestinationRepo(db),
+		busStopRepo:     postgres.NewBusStopRepo(db),
 	}
 }
 
@@ -33,4 +36,8 @@ func (s storagePG) UserRepo() repo.UserRepoI {
 
 func (s storagePG) DestinationRepo() repo.DestinationRepoI {
 	return s.destinationRepo
+}
+
+func (s storagePG) BusStopRepo() repo.BusStopRepoI {
+	return s.busStopRepo
 }

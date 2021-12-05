@@ -54,7 +54,7 @@ func (d destinationRepo) GetAll(limit, page int32) (models.Destinations, error) 
 
 	offset := (page - 1) * limit
 
-	query := `SELECT id, from_place, to_place, distance, price FROM destination LIMIT $1 OFFSET $2`
+	query := `SELECT id, from_place, to_place, distance, price FROM destination ORDER BY created_at desc LIMIT $1 OFFSET $2`
 	err := d.db.Select(&res, query, limit, offset)
 	if err != nil {
 		return models.Destinations{Destinations: res}, err
