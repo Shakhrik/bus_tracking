@@ -78,7 +78,7 @@ func (b busRepo) ReserveBus(busId int64) (res models.ResponseWithID, err error) 
 }
 
 func (b busRepo) Delete(id int64) (res models.ResponseWithID, err error) {
-	query := `DELETE FROM bus_stop WHERE id = $1 RETURNING id`
+	query := `DELETE FROM bus WHERE id = $1 RETURNING id`
 	err = b.db.Get(&res.ID, query, id)
 	return
 }
