@@ -83,27 +83,26 @@ func (h handlerV1) BusGetAll(c *gin.Context) {
 	h.HandleSuccessResponse(c, 200, "get all buses successfully", res)
 }
 
-//@Router /v1/bus/reserve/{id} [post]
+//@Router /v1/bus/reserve [post]
 //@Summary Reserve bus
 //@Description API for reserve bus
 //@Tags bus
 //@Accept json
 //@Produce json
-//@Param id path string true "id"
+//@Param bus_reserve body models.BusReserve true "bus_reserve"
 //@Success 200 {object} models.SuccessModel
 //@Failure 400 {object} models.ResponseError
 //@Failure 500 {object} models.ResponseError
 func (h handlerV1) BusReserve(c *gin.Context) {
-	desID := c.Param("id")
-	value, err := strconv.Atoi(desID)
+	var busReserve models.BusReserve
+
+	err := c.ShouldBind(&busReserve)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		h.HandleErrorResponse(c, http.StatusBadRequest, "bad request", err)
 		return
 	}
 
-	res, err := h.storage.BusRepo().ReserveBus(int64(value))
+	res, err := h.storage.BusRepo().ReserveBus(busReserve.BusID)
 	if err != nil {
 		h.HandleErrorResponse(c, http.StatusInternalServerError, "database error", err)
 		return

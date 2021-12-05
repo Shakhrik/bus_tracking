@@ -1,8 +1,6 @@
 package postgres
 
 import (
-	"fmt"
-
 	"github.com/Shakhrik/inha/bus_tracking/api/models"
 	"github.com/Shakhrik/inha/bus_tracking/storage/repo"
 	"github.com/jmoiron/sqlx"
@@ -74,8 +72,13 @@ func (b busRepo) GetAll(destinationId, limit, page int32) (models.Buses, error) 
 }
 
 func (b busRepo) ReserveBus(busId int64) (res models.ResponseWithID, err error) {
-	fmt.Println("busId ", busId)
 	query := `INSERT INTO bus_seat (bus_id) VALUES($1) RETURNING id`
 	err = b.db.Get(&res.ID, query, busId)
+	return
+}
+
+func (b busRepo) Delete(id int64) (res models.ResponseWithID, err error) {
+	query := `DELETE FROM bus_stop WHERE id = $1 RETURNING id`
+	err = b.db.Get(&res.ID, query, id)
 	return
 }

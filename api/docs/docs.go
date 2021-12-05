@@ -215,7 +215,7 @@ var doc = `{
                 }
             }
         },
-        "/v1/bus/reserve/{id}": {
+        "/v1/bus/reserve": {
             "post": {
                 "description": "API for reserve bus",
                 "consumes": [
@@ -230,11 +230,13 @@ var doc = `{
                 "summary": "Reserve bus",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
+                        "description": "bus_reserve",
+                        "name": "bus_reserve",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.BusReserve"
+                        }
                     }
                 ],
                 "responses": {
@@ -564,6 +566,14 @@ var doc = `{
                 },
                 "start_time": {
                     "type": "string"
+                }
+            }
+        },
+        "models.BusReserve": {
+            "type": "object",
+            "properties": {
+                "bus_id": {
+                    "type": "integer"
                 }
             }
         },

@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS bus_seat(
     id SERIAL PRIMARY KEY,
     seat_number INT,
-    bus_id INT REFERENCES bus(id) ON DELETE SET NULL,
+    bus_id INT REFERENCES bus(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP
 );

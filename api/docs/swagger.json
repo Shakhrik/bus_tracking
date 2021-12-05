@@ -196,7 +196,7 @@
                 }
             }
         },
-        "/v1/bus/reserve/{id}": {
+        "/v1/bus/reserve": {
             "post": {
                 "description": "API for reserve bus",
                 "consumes": [
@@ -211,11 +211,13 @@
                 "summary": "Reserve bus",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
+                        "description": "bus_reserve",
+                        "name": "bus_reserve",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.BusReserve"
+                        }
                     }
                 ],
                 "responses": {
@@ -545,6 +547,14 @@
                 },
                 "start_time": {
                     "type": "string"
+                }
+            }
+        },
+        "models.BusReserve": {
+            "type": "object",
+            "properties": {
+                "bus_id": {
+                    "type": "integer"
                 }
             }
         },
