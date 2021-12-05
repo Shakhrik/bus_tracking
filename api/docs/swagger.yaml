@@ -81,6 +81,37 @@ info:
   contact: {}
 paths:
   /v1/bus:
+    get:
+      consumes:
+      - application/json
+      description: API for getting all buses
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: GetAll bus
+      tags:
+      - bus
     post:
       consumes:
       - application/json

@@ -139,3 +139,40 @@ func (h handlerV1) BusDelete(c *gin.Context) {
 
 	h.HandleSuccessResponse(c, 200, "bus deleted successfully", res)
 }
+
+//@Router /v1/bus [get]
+//@Summary GetAll bus
+//@Description API for getting all buses
+//@Tags bus
+//@Accept json
+//@Produce json
+//@Param limit query int false "limit"
+//@Param page query int false "page"
+//@Success 200 {object} models.SuccessModel
+//@Failure 400 {object} models.ResponseError
+//@Failure 500 {object} models.ResponseError
+func (h handlerV1) BriefBusGetAll(c *gin.Context) {
+	limit, err := ParseQueryParam(c, "limit", "10")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	page, err := ParseQueryParam(c, "page", "1")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	res, err := h.storage.BusRepo().GetAllBuses(limit, page)
+	if err != nil {
+		h.HandleErrorResponse(c, http.StatusInternalServerError, "database error", err)
+		return
+	}
+
+	h.HandleSuccessResponse(c, 200, "get all buses successfully", res)
+}

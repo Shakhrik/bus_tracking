@@ -83,10 +83,20 @@ func (b busRepo) Delete(id int64) (res models.ResponseWithID, err error) {
 	return
 }
 
-// func (b busRepo) GetAllBuses(limit, page int32) (models.BriefBuses, error) {
-// 	var buses []models.BriefBus
-// 	offset := (page - 1) * limit
-// 	query := `SELECT id, name FROM bus LIMIT $1 OFFSET $2`
+func (b busRepo) GetAllBuses(limit, page int32) (models.BriefBuses, error) {
+	var buses []models.BriefBus
+	var count int64
+	offset := (page - 1) * limit
+	query := `SELECT id, name FROM bus WHERE destination_id is not null LIMIT $1 OFFSET $2`
 
-// 	err = b.db.Select()
-// }
+	err := b.db.Select(&buses, query, limit, offset)
+	if err != nil {
+		return models.BriefBuses{}, err
+	}
+
+	err = b.db.Get(&count, `SELECT count(1) FROM bus WHERE destination_id is not null`)
+	if err != nil {
+		return models.BriefBuses{}, err
+	}
+	return models.BriefBuses{Buses: buses, Count: count}, nil
+}
