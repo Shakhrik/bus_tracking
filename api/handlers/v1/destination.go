@@ -140,3 +140,32 @@ func (h handlerV1) DestinationGetAll(c *gin.Context) {
 
 	h.HandleSuccessResponse(c, 200, "get all successfully", res)
 }
+
+//@Router /v1/destination/{id} [delete]
+//@Summary Delete destination
+//@Description API for deleting destination
+//@Tags destination
+//@Accept json
+//@Produce json
+//@Param id path string true "id"
+//@Success 200 {object} models.SuccessModel
+//@Failure 400 {object} models.ResponseError
+//@Failure 500 {object} models.ResponseError
+func (h handlerV1) DestinationDelete(c *gin.Context) {
+	desID := c.Param("id")
+	value, err := strconv.Atoi(desID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	res, err := h.storage.DestinationRepo().Delete(int32(value))
+	if err != nil {
+		h.HandleErrorResponse(c, http.StatusInternalServerError, "database error", err)
+		return
+	}
+
+	h.HandleSuccessResponse(c, 200, "destination deleted successfully", res)
+}

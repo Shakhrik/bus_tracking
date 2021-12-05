@@ -16,13 +16,13 @@ func NewDestinationRepo(db *sqlx.DB) repo.DestinationRepoI {
 	return destinationRepo{db: db}
 }
 
-func (d destinationRepo) Create(req models.DestinationCreate) (id int64, err error) {
+func (d destinationRepo) Create(req models.DestinationCreate) (res models.DestinationGet, err error) {
 	query := `INSERT INTO destination(from_place, to_place, price, distance) VALUES($1,$2,$3,$4) RETURNING id`
-	err = d.db.Get(&id, query, req.From, req.To, req.Price, req.Distance)
+	err = d.db.Get(&res.ID, query, req.From, req.To, req.Price, req.Distance)
 	return
 }
 
-func (d destinationRepo) Update(req models.DestinationUpdate) (int64, error) {
+func (d destinationRepo) Update(req models.DestinationUpdate) (*models.DestinationGet, error) {
 	query := `UPDATE destination SET 
 					from_place = $1,
 					to_place = $2,
@@ -32,14 +32,14 @@ func (d destinationRepo) Update(req models.DestinationUpdate) (int64, error) {
 			 WHERE id = $5`
 	res, err := d.db.Exec(query, req.From, req.To, req.Price, req.Distance, req.ID)
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 	rows, _ := res.RowsAffected()
 	if rows == 0 {
-		return 0, sql.ErrNoRows
+		return nil, sql.ErrNoRows
 	}
 
-	return req.ID, nil
+	return &models.DestinationGet{ID: req.ID}, nil
 }
 
 func (d destinationRepo) Get(id int64) (res models.Destination, err error) {
@@ -59,5 +59,11 @@ func (d destinationRepo) GetAll(limit, page int32) (res models.Destinations, err
 
 	queryCount := `SELECT count(1) FROM destination LIMIT $1 OFFSET $2`
 	err = d.db.Get(&res.Count, queryCount, limit, offset)
+	return
+}
+
+func (d destinationRepo) Delete(id int32) (res models.DestinationGet, err error) {
+	query := `DELETE FROM destination WHERE id = $1 RETURNING id`
+	err = d.db.Get(&res.ID, query, id)
 	return
 }

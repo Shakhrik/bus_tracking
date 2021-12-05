@@ -47,6 +47,7 @@ func New(opt *RouterOptions) *gin.Engine {
 		apiV1.PUT("/destination/:id", handlerV1.DestinationUpdate)
 		apiV1.GET("/destination/:id", handlerV1.DestinationGet)
 		apiV1.GET("/destination", handlerV1.DestinationGetAll)
+		apiV1.DELETE("/destination/:id", handlerV1.DestinationDelete)
 
 	}
 	url := ginSwagger.URL("swagger/doc.json") // The url pointing to API definition
