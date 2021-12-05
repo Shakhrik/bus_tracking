@@ -55,3 +55,10 @@ func (b busStopRepo) GetAll(destinationId, limit, page int32) (models.BusStopes,
 	}
 	return models.BusStopes{BusStopes: res, Count: count}, nil
 }
+
+// func (b busStopRepo) GetAllByBusID (busId, limit, page int32) () {
+// 	qury := `SELECT
+// 				bs.name,
+// 				d.from_place || '-' || d.to_place AS destination_name,
+// 				`
+// }

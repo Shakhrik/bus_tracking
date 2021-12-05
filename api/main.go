@@ -54,6 +54,7 @@ func New(opt *RouterOptions) *gin.Engine {
 		apiV1.DELETE("/bus-stop/:id", handlerV1.BusStopDelete)
 
 		apiV1.POST("/bus", handlerV1.BusCreate)
+		apiV1.GET("/bus/:destination_id", handlerV1.BusGetAll)
 
 	}
 	url := ginSwagger.URL("swagger/doc.json") // The url pointing to API definition
