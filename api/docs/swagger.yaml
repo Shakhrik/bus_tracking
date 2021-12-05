@@ -64,6 +64,19 @@ definitions:
       message:
         type: string
     type: object
+  models.UserCreateRequest:
+    properties:
+      alias:
+        type: string
+      bus_id:
+        type: integer
+      login:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -441,4 +454,98 @@ paths:
       summary: Update destination
       tags:
       - destination
+  /v1/user:
+    get:
+      consumes:
+      - application/json
+      description: API for getting all users
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: alias
+        in: query
+        name: alias
+        type: string
+      - description: page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: GetAll users
+      tags:
+      - user
+    post:
+      consumes:
+      - application/json
+      description: API for create user
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Create user
+      tags:
+      - user
+  /v1/user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: API for deleting user
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Delete user
+      tags:
+      - user
 swagger: "2.0"

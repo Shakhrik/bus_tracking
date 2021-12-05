@@ -58,6 +58,10 @@ func New(opt *RouterOptions) *gin.Engine {
 		apiV1.GET("/bus/:destination_id", handlerV1.BusGetAll)
 		apiV1.POST("/bus/reserve", handlerV1.BusReserve)
 
+		apiV1.POST("/user", handlerV1.UserCreate)
+		apiV1.GET("/user", handlerV1.UserGetAll)
+		apiV1.DELETE("/user/:id", handlerV1.UserDelete)
+
 	}
 	url := ginSwagger.URL("swagger/doc.json") // The url pointing to API definition
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
