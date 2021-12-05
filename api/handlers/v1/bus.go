@@ -217,7 +217,7 @@ func (h handlerV1) ChangeStatus(c *gin.Context) {
 		return
 	}
 
-	message := `Bus with id = ` + strconv.Itoa(int(res.ID)) + ` has been updated`
+	message := `Bus with id = ` + strconv.Itoa(int(res.ID)) + ` has been updated its bus-stop`
 	socket.SocketClient(IP, PORT, message)
 	h.HandleSuccessResponse(c, 201, "bus created successfully", res)
 
