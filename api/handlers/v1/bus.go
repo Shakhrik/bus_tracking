@@ -11,7 +11,7 @@ import (
 
 const (
 	IP   = "167.71.7.70"
-	PORT = 9980
+	PORT = 9979
 )
 
 //@Router /v1/bus [post]
