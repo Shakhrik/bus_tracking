@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/Shakhrik/inha/bus_tracking/api/models"
+	"github.com/Shakhrik/inha/bus_tracking/pkg/socket"
 	"github.com/gin-gonic/gin"
 )
 
@@ -52,6 +53,11 @@ func (h handlerV1) DestinationCreate(c *gin.Context) {
 		if err != nil {
 			fmt.Println("error in go routine:", err)
 		}
+	}()
+
+	go func() {
+		message := `Destination with id = ` + strconv.Itoa(int(res.ID)) + ` has been created`
+		socket.SocketClient(IP, PORT, message)
 	}()
 
 	h.HandleSuccessResponse(c, 201, "destination created successfully", res)

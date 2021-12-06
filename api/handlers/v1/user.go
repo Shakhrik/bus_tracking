@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/Shakhrik/inha/bus_tracking/api/models"
+	"github.com/Shakhrik/inha/bus_tracking/pkg/socket"
 	"github.com/gin-gonic/gin"
 )
 
@@ -34,6 +35,11 @@ func (h handlerV1) UserCreate(c *gin.Context) {
 		h.HandleErrorResponse(c, http.StatusInternalServerError, "database error", err)
 		return
 	}
+
+	go func() {
+		message := `Bus operator with id = ` + strconv.Itoa(int(res.ID)) + ` has been created`
+		socket.SocketClient(IP, PORT, message)
+	}()
 
 	h.HandleSuccessResponse(c, 201, "user created successfully", res)
 }

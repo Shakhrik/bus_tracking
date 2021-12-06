@@ -41,7 +41,6 @@ func New(opt *RouterOptions) *gin.Engine {
 
 	apiV1 := router.Group("/v1")
 
-	// apiV1.Use(handlerV1.AuthMiddleware())
 	{
 		apiV1.POST("/destination", handlerV1.DestinationCreate)
 		apiV1.PUT("/destination/:id", handlerV1.DestinationUpdate)
