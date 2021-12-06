@@ -11,7 +11,7 @@ import (
 
 const (
 	IP   = "167.71.7.70"
-	PORT = 9979
+	PORT = 9978
 )
 
 //@Router /v1/bus [post]
@@ -217,7 +217,7 @@ func (h handlerV1) ChangeStatus(c *gin.Context) {
 		return
 	}
 
-	message := `Bus with id = ` + strconv.Itoa(int(res.ID)) + ` has been updated its bus-stop`
+	message := `Bus with id = ` + strconv.Itoa(int(res.ID)) + ` has been updated its bus-stop with id = ` + strconv.Itoa(int(changeStatus.BusStopID))
 	socket.SocketClient(IP, PORT, message)
 	h.HandleSuccessResponse(c, 201, "bus created successfully", res)
 
