@@ -7,4 +7,5 @@ type UserRepoI interface {
 	Delete(id int32) (res models.ResponseWithID, err error)
 	GetAll(alias string, limit, page int32) (models.AllUsers, error)
 	Login(req models.UserLogin) (res models.UserInfo, err error)
+	GetUserBuses(userID int64) (models.UserBuses, error)
 }

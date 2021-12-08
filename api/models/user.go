@@ -31,3 +31,19 @@ type UserInfo struct {
 	UserType string  `json:"user_type" db:"user_type"`
 	BusID    *string `json:"bus_id" db:"bus_id"`
 }
+
+type UserBus struct {
+	BusID           string `json:"bus_id" db:"bus_id"`
+	BusName         string `json:"bus_name" db:"bus_name"`
+	DestinationName string `json:"destination_name" db:"destination_name"`
+	ReservationID   int64  `json:"reservation_id" db:"reservation_id"`
+	SeatNumber      int64  `json:"seat_number" db:"seat_number"`
+	BookedDate      string `json:"booked_date" db:"booked_date"`
+	StartTime       string `json:"start_time" db:"start_time"`
+	EndTime         string `json:"end_time" db:"end_time"`
+}
+
+type UserBuses struct {
+	Buses []UserBus `json:"buses"`
+	Count int64     `json:"count"`
+}

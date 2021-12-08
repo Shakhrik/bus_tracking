@@ -1,6 +1,8 @@
 package postgres
 
 import (
+	"time"
+
 	"github.com/Shakhrik/inha/bus_tracking/api/models"
 	"github.com/Shakhrik/inha/bus_tracking/storage/repo"
 	"github.com/jmoiron/sqlx"
@@ -67,4 +69,34 @@ func (u userRepo) Login(req models.UserLogin) (res models.UserInfo, err error) {
 			  `
 	err = u.db.Get(&res, query, req.Login, req.Password)
 	return
+}
+
+func (u userRepo) GetUserBuses(userID int64) (models.UserBuses, error) {
+	var (
+		bookedDate time.Time
+		res        []models.UserBus
+	)
+
+	query := `SELECT b.id bus_id, b.name bus_name, d.from_place || '-' || d.to_place AS destination_name,
+			   b.start_time, b.end_time, bs.id reservation_id, bs.created_at booked_date, bs.seat_number
+			  FROM bus_seat bs
+			  JOIN bus b ON b.id = bs.bus_id
+			  JOIN destination d ON b.destination_id = d.id
+			  WHERE bs.user_id = $1`
+	result, err := u.db.Query(query, userID)
+	if err != nil {
+		return models.UserBuses{Buses: res}, err
+	}
+
+	for result.Next() {
+		var b models.UserBus
+		err = result.Scan(&b.BusID, &b.BusName, &b.DestinationName,
+			&b.StartTime, &b.EndTime, &b.ReservationID, &bookedDate, &b.SeatNumber)
+		if err != nil {
+			return models.UserBuses{Buses: res}, err
+		}
+		b.BookedDate = bookedDate.Format("02-01-2006 15:04:05")
+		res = append(res, b)
+	}
+	return models.UserBuses{Buses: res}, nil
 }

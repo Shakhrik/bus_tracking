@@ -115,7 +115,6 @@ func (h handlerV1) UserGetAll(c *gin.Context) {
 
 func (h handlerV1) Socket(c *gin.Context) {
 	fmt.Println("keldiii", c.Request.Body)
-
 }
 
 //@Router /v1/login [post]
@@ -149,5 +148,32 @@ func (h handlerV1) Login(c *gin.Context) {
 	}
 
 	h.HandleSuccessResponse(c, 201, "user info", res)
+}
 
+//@Router /v1/user-buses/{user_id} [get]
+//@Summary GetAll user buses
+//@Description API for getting all user buses
+//@Tags user
+//@Accept json
+//@Produce json
+//@Param user_id path string true "user_id"
+//@Success 200 {object} models.SuccessModel
+//@Failure 400 {object} models.ResponseError
+//@Failure 500 {object} models.ResponseError
+func (h handlerV1) GetAllUserBuses(c *gin.Context) {
+	userID := c.Param("user_id")
+	value, err := strconv.Atoi(userID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	res, err := h.storage.UserRepo().GetUserBuses(int64(value))
+	if err != nil {
+		h.HandleErrorResponse(c, http.StatusInternalServerError, "database error", err)
+		return
+	}
+
+	h.HandleSuccessResponse(c, 200, "get all users successfully", res)
 }

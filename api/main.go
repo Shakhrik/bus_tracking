@@ -61,6 +61,7 @@ func New(opt *RouterOptions) *gin.Engine {
 		apiV1.GET("/bus-stops/:bus_id", handlerV1.GetAllBusStopsByBus)
 		apiV1.POST("/user", handlerV1.UserCreate)
 		apiV1.GET("/user", handlerV1.UserGetAll)
+		apiV1.GET("/user-buses/:user_id", handlerV1.GetAllUserBuses)
 		apiV1.DELETE("/user/:id", handlerV1.UserDelete)
 		apiV1.POST("/login", handlerV1.Login)
 
