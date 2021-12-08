@@ -9,14 +9,15 @@ type BusCreate struct {
 }
 
 type Bus struct {
-	ID              int64  `json:"id" db:"id"`
-	IsFull          bool   `json:"is_full" db:"is_full"`
-	RemainingSeats  int64  `json:"remaining_seats" db:"remaining_seats"`
-	Name            string `json:"name" db:"name"`
-	StartTime       string `json:"start_time" db:"start_time"`
-	EndTime         string `json:"end_time" db:"end_time"`
-	SeatCount       int64  `json:"seat_count" db:"seat_count"`
-	DestinationName string `json:"destination_name" db:"destination_name"`
+	ID              int64   `json:"id" db:"id"`
+	IsFull          bool    `json:"is_full" db:"is_full"`
+	RemainingSeats  int64   `json:"remaining_seats" db:"remaining_seats"`
+	Name            string  `json:"name" db:"name"`
+	StartTime       string  `json:"start_time" db:"start_time"`
+	EndTime         string  `json:"end_time" db:"end_time"`
+	SeatCount       int64   `json:"seat_count" db:"seat_count"`
+	DestinationName string  `json:"destination_name" db:"destination_name"`
+	BookedSeats     []int32 `json:"booked_seats" db:"booked_seats"`
 }
 
 type Buses struct {

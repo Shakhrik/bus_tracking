@@ -4,6 +4,7 @@ import (
 	"github.com/Shakhrik/inha/bus_tracking/api/models"
 	"github.com/Shakhrik/inha/bus_tracking/storage/repo"
 	"github.com/jmoiron/sqlx"
+	"github.com/lib/pq"
 )
 
 type busRepo struct {
@@ -44,22 +45,36 @@ func (b busRepo) GetAll(destinationId, limit, page int32) (models.Buses, error) 
 	offset := (page - 1) * limit
 
 	query := `WITH temp AS(
-		select b.id as id, count(1) as booked_seats_count
+		select b.id as id, count(seat_number) as booked_seats_count, array_agg(seat_number) booked_seats
 		from bus b
 		left join bus_seat bs on b.id = bs.bus_id
 		group by b.id
 		)
 		select b.id, b.start_time, b.end_time, b.name, b.seat_count, 
 		d.from_place || '-' || d.to_place AS destination_name, 
-		is_full, b.seat_count - t.booked_seats_count as remaining_seats
+		is_full, b.seat_count - t.booked_seats_count as remaining_seats, t.booked_seats
 		from temp t
 		join bus b on t.id = b.id
 		JOIN destination d ON b.destination_id = d.id
 		WHERE b.destination_id = $1
 		LIMIT $2 OFFSET $3`
-	err := b.db.Select(&res, query, destinationId, limit, offset)
+	result, err := b.db.Query(query, destinationId, limit, offset)
 	if err != nil {
 		return models.Buses{Buses: res}, err
+	}
+	for result.Next() {
+		var a models.Bus
+		err = result.Scan(
+			&a.ID, &a.StartTime, &a.EndTime, &a.Name,
+			&a.SeatCount, &a.DestinationName, &a.IsFull,
+			&a.RemainingSeats, pq.Array(&a.BookedSeats),
+		)
+		// if err != nil {
+		// 	return models.Buses{Buses: res}, err
+		// }
+
+		res = append(res, a)
+
 	}
 
 	queryCount := `SELECT count(1) FROM bus_stop WHERE destination_id = $1 LIMIT $2 OFFSET $3`
