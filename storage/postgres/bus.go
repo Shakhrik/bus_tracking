@@ -71,9 +71,9 @@ func (b busRepo) GetAll(destinationId, limit, page int32) (models.Buses, error) 
 	return models.Buses{Buses: res, Count: count}, nil
 }
 
-func (b busRepo) ReserveBus(busId int64) (res models.ResponseWithID, err error) {
-	query := `INSERT INTO bus_seat (bus_id) VALUES($1) RETURNING id`
-	err = b.db.Get(&res.ID, query, busId)
+func (b busRepo) ReserveBus(req models.ReserveBus) (res models.ResponseWithID, err error) {
+	query := `INSERT INTO bus_seat (bus_id, user_id, seat_number) VALUES($1, $2, $3) RETURNING id`
+	err = b.db.Get(&res.ID, query, req.BusID, req.UserID, req.SeatNumber)
 	return
 }
 

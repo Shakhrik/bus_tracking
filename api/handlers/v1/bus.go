@@ -95,12 +95,12 @@ func (h handlerV1) BusGetAll(c *gin.Context) {
 //@Tags bus
 //@Accept json
 //@Produce json
-//@Param bus_reserve body models.BusReserve true "bus_reserve"
+//@Param bus_reserve body models.ReserveBus true "bus_reserve"
 //@Success 200 {object} models.SuccessModel
 //@Failure 400 {object} models.ResponseError
 //@Failure 500 {object} models.ResponseError
 func (h handlerV1) BusReserve(c *gin.Context) {
-	var busReserve models.BusReserve
+	var busReserve models.ReserveBus
 
 	err := c.ShouldBind(&busReserve)
 	if err != nil {
@@ -108,7 +108,7 @@ func (h handlerV1) BusReserve(c *gin.Context) {
 		return
 	}
 
-	res, err := h.storage.BusRepo().ReserveBus(busReserve.BusID)
+	res, err := h.storage.BusRepo().ReserveBus(busReserve)
 	if err != nil {
 		h.HandleErrorResponse(c, http.StatusInternalServerError, "database error", err)
 		return

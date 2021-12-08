@@ -319,7 +319,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.BusReserve"
+                            "$ref": "#/definitions/models.ReserveBus"
                         }
                     }
                 ],
@@ -939,14 +939,6 @@
                 }
             }
         },
-        "models.BusReserve": {
-            "type": "object",
-            "properties": {
-                "bus_id": {
-                    "type": "integer"
-                }
-            }
-        },
         "models.BusStopCreate": {
             "type": "object",
             "properties": {
@@ -1000,6 +992,20 @@
                 },
                 "to": {
                     "type": "string"
+                }
+            }
+        },
+        "models.ReserveBus": {
+            "type": "object",
+            "properties": {
+                "bus_id": {
+                    "type": "integer"
+                },
+                "seat_number": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },

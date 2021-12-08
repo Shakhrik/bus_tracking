@@ -12,11 +12,6 @@ definitions:
       start_time:
         type: string
     type: object
-  models.BusReserve:
-    properties:
-      bus_id:
-        type: integer
-    type: object
   models.BusStopCreate:
     properties:
       destination_id:
@@ -52,6 +47,15 @@ definitions:
         type: integer
       to:
         type: string
+    type: object
+  models.ReserveBus:
+    properties:
+      bus_id:
+        type: integer
+      seat_number:
+        type: integer
+      user_id:
+        type: integer
     type: object
   models.ResponseError:
     properties:
@@ -363,7 +367,7 @@ paths:
         name: bus_reserve
         required: true
         schema:
-          $ref: '#/definitions/models.BusReserve'
+          $ref: '#/definitions/models.ReserveBus'
       produces:
       - application/json
       responses:

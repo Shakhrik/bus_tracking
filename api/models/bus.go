@@ -28,9 +28,6 @@ type BriefBus struct {
 	ID   int64  `json:"id" db:"id"`
 	Name string `json:"name" db:"name"`
 }
-type BusReserve struct {
-	BusID int64 `json:"bus_id" db:"bus_id"`
-}
 type BriefBuses struct {
 	Buses []BriefBus `json:"buses" db:"buses"`
 	Count int64      `json:"count"`
@@ -52,4 +49,10 @@ type GetBusStop struct {
 type GetAllBusStopes struct {
 	BusStops []GetBusStop `json:"bus_stops"`
 	Count    int64        `json:"count"`
+}
+
+type ReserveBus struct {
+	UserID     int64 `json:"user_id" db:"user_id"`
+	BusID      int64 `json:"bus_id" db:"bus_id"`
+	SeatNumber int64 `json:"seat_number" db:"seat_number"`
 }

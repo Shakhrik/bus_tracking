@@ -1,2 +1,2 @@
 INSERT INTO user_type(alias) VALUES('superadmin'),('operator'),('client');
-INSERT INTO users(name, login, password, user_type_id) VALUES('SUPERADMIN', 'admin', 'admin1234', (SELECT id FROM user_type WHERE alias = 'superadmin'));
+-- INSERT INTO users(name, login, password, user_type_id) VALUES('SUPERADMIN', 'admin', 'admin1234', (SELECT id FROM user_type WHERE alias = 'superadmin'));

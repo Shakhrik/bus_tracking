@@ -338,7 +338,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.BusReserve"
+                            "$ref": "#/definitions/models.ReserveBus"
                         }
                     }
                 ],
@@ -958,14 +958,6 @@ var doc = `{
                 }
             }
         },
-        "models.BusReserve": {
-            "type": "object",
-            "properties": {
-                "bus_id": {
-                    "type": "integer"
-                }
-            }
-        },
         "models.BusStopCreate": {
             "type": "object",
             "properties": {
@@ -1019,6 +1011,20 @@ var doc = `{
                 },
                 "to": {
                     "type": "string"
+                }
+            }
+        },
+        "models.ReserveBus": {
+            "type": "object",
+            "properties": {
+                "bus_id": {
+                    "type": "integer"
+                },
+                "seat_number": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },
