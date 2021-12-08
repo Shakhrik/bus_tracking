@@ -12,7 +12,7 @@ type UserCreateRequest struct {
 	Name     string `json:"name" db:"name"`
 	Login    string `json:"login" db:"login"`
 	Password string `json:"password" db:"password"`
-	BusID    int64  `json:"bus_id" db:"bus_id"`
+	BusID    *int64 `json:"bus_id" db:"bus_id"`
 	Alias    string `json:"alias" db:"alias"`
 }
 
