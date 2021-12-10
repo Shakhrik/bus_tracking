@@ -58,7 +58,7 @@ func (h handlerV1) BusStopGetAll(c *gin.Context) {
 		return
 	}
 
-	limit, err := ParseQueryParam(c, "limit", "10")
+	limit, err := ParseQueryParam(c, "limit", "100")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),

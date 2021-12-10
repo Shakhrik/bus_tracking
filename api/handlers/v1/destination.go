@@ -143,7 +143,7 @@ func (h handlerV1) DestinationGet(c *gin.Context) {
 //@Failure 400 {object} models.ResponseError
 //@Failure 500 {object} models.ResponseError
 func (h handlerV1) DestinationGetAll(c *gin.Context) {
-	limit, err := ParseQueryParam(c, "limit", "10")
+	limit, err := ParseQueryParam(c, "limit", "100")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
