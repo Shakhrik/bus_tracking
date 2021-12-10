@@ -65,7 +65,7 @@ func (u userRepo) Login(req models.UserLogin) (res models.UserInfo, err error) {
 	query := `SELECT u.id, ut.alias as user_type, bus_id, b.name bus_name
 			  FROM users u
 			  JOIN user_type ut ON ut.id = u.user_type_id
-			  JOIN bus b ON u.bus_id = b.id
+			  LEFT JOIN bus b ON u.bus_id = b.id
 			  WHERE login = $1 and password = $2
 			  `
 	err = u.db.Get(&res, query, req.Login, req.Password)
