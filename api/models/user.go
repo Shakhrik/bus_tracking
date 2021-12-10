@@ -30,7 +30,7 @@ type UserInfo struct {
 	ID       int64   `json:"id" db:"id"`
 	UserType string  `json:"user_type" db:"user_type"`
 	BusID    *string `json:"bus_id" db:"bus_id"`
-	BusName  string  `json:"bus_name" db:"bus_name"`
+	BusName  *string `json:"bus_name" db:"bus_name"`
 }
 
 type UserBus struct {
